@@ -75,15 +75,13 @@ enum class Operation {
         } else if(this == OR) {
             return if((a > 0f) || (b > 0f)) 1f else 0f
         } else if(this == ROOT) {
-            // only sqrt and cube root supported
-            if(a != 2f && a != 3f) {
-                throw IllegalArgumentException("Only square root and cube root are supported!")
-            }
-
             if(a == 2f) {
                 return Math.sqrt(b.toDouble()).toFloat()
             } else if(a == 3f) {
                 return Math.cbrt(b.toDouble()).toFloat()
+            } else {
+                val factor = 1.0 / a // 4^0.5 = 2 root 4, 8^0.3333... = 3 root 8
+                return Math.pow(b.toDouble(), factor).toFloat()
             }
         } else if(this == FACTORIAL) {
             if(a > 34f) {
